@@ -23,3 +23,38 @@ conda activate venv
 Install Flask
 pip install -r requirements.txt
 ```
+
+To add files in git
+```
+git add .
+```
+To add file in git
+```
+git add <filename>
+```
+
+Note :- To ignore file or folder from git we can write file/folder name in .gitignore file.
+
+To check status of git
+```
+git status
+```
+
+To check the logs of git
+```
+git log
+```
+To commit/version the file in git
+```
+git commit -m "<message>"
+```
+To send version/changes to github
+```
+git push origin main
+```
+
+
+
+
+
+
