@@ -85,6 +85,9 @@ To stop docker conatiner
 docker stop <container_id>
 ```
 
-
+Install kernel for VS Code
+```
+pip install ipykernel
+```
 
 
