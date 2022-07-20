@@ -1,11 +1,9 @@
-
-from asyncio.log import logger
-from logging import exception
 from housing.entity.config_entity import DataIngestionConfig,DataValidatiionConfig,DataTransformationConfig,ModelTrainConfig,ModelEvaluationConfig,ModelPusherConfig,TrainingPipelineConfig
 from housing.util.util import read_yaml_file
 from housing.constant import *
 from housing.exception import HousingException
 from housing.logger import logging
+import os,sys
 
 class Configuration:
 
@@ -26,7 +24,7 @@ class Configuration:
                 self.time_stamp
             )
             data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
-            dataset_download_url =  data_ingestion_config[DATA_INGESTION_DOWNLOAD_URL_KEY]
+            dataset_download_url =  data_ingestion_info[DATA_INGESTION_DOWNLOAD_URL_KEY]
             tgz_download_dir = os.path.join(data_ingestion_artifact_dir,data_ingestion_info[DATA_INGESTION_TGZ_DOWNLOAD_DIR_KEY])
             raw_data_dir = os.path.join(data_ingestion_artifact_dir,data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY])
             ingested_data_dir = os.path.join(data_ingestion_artifact_dir, data_ingestion_info[DATA_INGESTION_INGESTED_DIR_NAME_KEY])
@@ -39,14 +37,16 @@ class Configuration:
                 ingested_train_dir = ingested_train_dir, 
                 ingested_test_dir = ingested_test_dir
             )
-            logger.info(f"Data Ingestion config : {data_ingestion_config}")
+            logging.info(f"Data Ingestion config : {data_ingestion_config}")
             return data_ingestion_config
         except Exception as e:
             raise HousingException(e,sys) from e
 
     def get_data_validation_config(self) -> DataValidatiionConfig:
         try:
-            pass
+            schema_file_path=None
+            data_validation_config = DataValidatiionConfig(schema_file_path=schema_file_path)
+            return  data_validation_config
         except Exception as e:
             raise HousingException(e,sys) from e
 

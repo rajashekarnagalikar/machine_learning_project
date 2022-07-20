@@ -1,12 +1,12 @@
-from tkinter import E
-from traitlets import import_item
 from housing.config.configuration import Configuration
 from housing.logger import logging
 from housing.exception import HousingException
 from housing.entity.config_entity import DataIngestionConfig
 from housing.entity.artifact_entity import DataIngestionArtifact
 from housing.component.data_ingestion import DataIngestion
-import os, sys
+from housing.logger import logging
+from housing.entity.config_entity import DataIngestionConfig
+import os,sys
 
 class Pipeline:
 
@@ -25,34 +25,21 @@ class Pipeline:
             raise HousingException(e,sys) from e
 
     def start_data_validation(self):
-        try:
-            pass
-        except Exception as e:
-            raise HousingException(e,sys) from e
-
+        pass
+        
     def start_data_transformation(self):
-        try:
-            pass
-        except Exception as e:
-            raise HousingException(e,sys) from e
+        pass
+        
 
     def start_model_trainer(self):
-        try:
-            pass
-        except Exception as e:
-            raise HousingException(e,sys) from e
-
+        pass
+        
     def start_model_evaluation(self):
-        try:
-            pass
-        except Exception as e:
-            raise HousingException(e,sys) from e
-
+        pass
+        
     def start_model_pusher(self):
-        try:
-            pass
-        except Exception as e:
-            raise HousingException(e,sys) from e
+        pass
+        
 
     def run_pipeline(self):
         try:

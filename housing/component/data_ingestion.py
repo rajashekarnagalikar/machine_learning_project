@@ -44,7 +44,7 @@ class DataIngestion:
             logging.info(f"Downloading file from : [{download_url}] into : [{tgz_file_path}]")
 
             # Download from the url 
-            urllib.request.retrieve(download_url,tgz_file_path)
+            urllib.request.urlretrieve(download_url,tgz_file_path)
 
             logging.info(f"File :[{tgz_file_path}] has been downloaded successfully")
 
@@ -90,7 +90,7 @@ class DataIngestion:
 
             housing_data_frame['income_cat'] = pd.cut(
                 housing_data_frame['median_income'],
-                bins = [o.o, 1.5, 3.0, 4.5, 6.0, np.inf],
+                bins = [0.0, 1.5, 3.0, 4.5, 6.0, np.inf],
                 labels=[1,2,3,4,5]
             )
 
