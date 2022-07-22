@@ -1,4 +1,3 @@
-from asyncio.log import logger
 from fileinput import filename
 from housing.entity.config_entity import DataIngestionConfig
 import os,sys
