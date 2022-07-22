@@ -4,6 +4,10 @@ from housing.exception import HousingException
 from housing.entity.config_entity import DataValidatiionConfig
 from housing.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 import os,sys
+from evidently.model_profile import Profile
+from evidently.model_profile.sections import DataDriftProfileSection
+import pandas as pd
+import json
 
 class DataValidation():
 
@@ -11,6 +15,14 @@ class DataValidation():
         try:
             self.data_validation_config = data_validation_config
             self.data_ingestion_config = data_ingestion_artifact
+        except Exception as e:
+            raise HousingException(e,sys) from e
+
+    def get_train_and_test_df(self):
+        try:
+            train_df = pd.read_csv(self.data_ingestion_config.train_file_path)
+            test_df = pd.read_csv(self.data_ingestion_config.test_file_path)
+            return train_df,test_df
         except Exception as e:
             raise HousingException(e,sys) from e
 
@@ -59,9 +71,36 @@ class DataValidation():
         except Exception as e:
             raise HousingException(e,sys) from e
 
+    def is_data_drift_found(self)->bool:
+        pass
+
+    def get_and_save_data_drift_report(self):
+        try:
+            profile = Profile(sections=[DataDriftProfileSection()])
+
+            train_df, test_df = self.get_train_and_test_df()
+
+            # Calculating the data drift occured in the dataframes
+            profile.calculate(train_df,test_df)
+
+            # Converting the calculated report into json format 
+            report = json.loads(profile.json())
+
+            with open(self.data_validation_config.report_file_path,"w") as report_file:
+                json.dump(report, report_file, indent=6)
+
+            return report
+
+        except Exception as e:
+            raise HousingException(e,sys) from e
+
+    def save_data_drift_report_page(self):
+        pass
+
     def initiate_data_validation(self):
         try:
             self.is_train_test_file_exists()
             self.validate_dataset_schema()
+            self.is_data_drift_found()
         except Exception as e:
             raise HousingException(e,sys) from e

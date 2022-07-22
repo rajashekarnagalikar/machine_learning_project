@@ -90,4 +90,5 @@ Install kernel for VS Code
 pip install ipykernel
 ```
 
-
+Data Drift:
+When your dataset stats gets change we call it as data drift.Basically while comparing two datasets if the dataset stats differs or change then it is refered.
