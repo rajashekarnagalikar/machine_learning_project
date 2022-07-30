@@ -1,7 +1,8 @@
+
 from housing.logger import logging
 from housing.exception import HousingException
-from housing.entity.config_entity import DataValidatiionConfig
-from housing.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
+from housing.entity.config_entity import DataValidationConfig
+from housing.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact
 import os,sys
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
@@ -11,9 +12,12 @@ import pandas as pd
 import json
 
 class DataValidation:
+    
 
-    def __init__(self, data_validation_config: DataValidatiionConfig,data_ingestion_artifact:DataIngestionArtifact):
+    def __init__(self, data_validation_config:DataValidationConfig,
+        data_ingestion_artifact:DataIngestionArtifact):
         try:
+            logging.info(f"{'>>'*30}Data Valdaition log started.{'<<'*30} \n\n")
             self.data_validation_config = data_validation_config
             self.data_ingestion_artifact = data_ingestion_artifact
         except Exception as e:
@@ -46,13 +50,15 @@ class DataValidation:
             if not is_available:
                 training_file = self.data_ingestion_artifact.train_file_path
                 testing_file = self.data_ingestion_artifact.test_file_path
-                message = f"Training file : {training_file} or testing file : {testing_file} is not present"
+                message=f"Training file: {training_file} or Testing file: {testing_file}" \
+                    "is not present"
                 raise Exception(message)
-            return is_available
 
+            return is_available
         except Exception as e:
             raise HousingException(e,sys) from e
 
+    
     def validate_dataset_schema(self)->bool:
         try:
             validation_status = False
@@ -67,6 +73,7 @@ class DataValidation:
             # NEAR OCEAN
             #3. Check column names
 
+
             validation_status = True
             return validation_status 
         except Exception as e:
@@ -80,10 +87,10 @@ class DataValidation:
 
             # Calculating the data drift occured in the dataframes
             profile.calculate(train_df,test_df)
-
+            
             # Converting the calculated report into json format 
             report = json.loads(profile.json())
-
+            
             report_file_path = self.data_validation_config.report_file_path
 
             report_dir = os.path.dirname(report_file_path)
@@ -120,8 +127,7 @@ class DataValidation:
         except Exception as e:
             raise HousingException(e,sys) from e
 
-
-    def initiate_data_validation(self)->DataValidationArtifact:
+    def initiate_data_validation(self)->DataValidationArtifact :
         try:
             self.is_train_test_file_exists()
             self.validate_dataset_schema()

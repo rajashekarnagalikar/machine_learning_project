@@ -1,4 +1,4 @@
-from housing.entity.config_entity import DataIngestionConfig,DataValidatiionConfig,DataTransformationConfig,ModelTrainConfig,ModelEvaluationConfig,ModelPusherConfig,TrainingPipelineConfig
+from housing.entity.config_entity import DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainConfig,ModelEvaluationConfig,ModelPusherConfig,TrainingPipelineConfig
 from housing.util.util import read_yaml_file
 from housing.constant import *
 from housing.exception import HousingException
@@ -9,7 +9,7 @@ class Configuration:
 
     def __init__(self,config_file_path:str = CONFIG_FILE_PATH,current_time_stamp:str = CURRENT_TIME_STAMP) -> None:
         try:
-            self.config_info = read_yaml_file(file_path=config_file_path)
+            self.config_info  = read_yaml_file(file_path=config_file_path)
             self.training_pipeline_config = self.get_training_pipeline_config()
             self.time_stamp = current_time_stamp
         except Exception as e:
@@ -18,7 +18,7 @@ class Configuration:
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
-            data_ingestion_artifact_dir = os.path.join(
+            data_ingestion_artifact_dir=os.path.join(
                 artifact_dir,
                 DATA_INGESTION_ARTIFACT_DIR,
                 self.time_stamp
@@ -42,7 +42,7 @@ class Configuration:
         except Exception as e:
             raise HousingException(e,sys) from e
 
-    def get_data_validation_config(self) -> DataValidatiionConfig:
+    def get_data_validation_config(self) -> DataValidationConfig:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
             data_validation_artifact_dir = os.path.join(
@@ -62,11 +62,9 @@ class Configuration:
             report_page_file_path = os.path.join(data_validation_artifact_dir,
             data_validation_config[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY]
             )
-            data_validation_config = DataValidatiionConfig(schema_file_path=schema_file_path,
-            report_file_path=report_file_path,
-            report_page_file_path=report_page_file_path
-            )
-            return  data_validation_config
+
+            data_validation_config = DataValidationConfig(schema_file_path=schema_file_path,report_file_path=report_file_path,report_page_file_path=report_page_file_path)
+            return data_validation_config
         except Exception as e:
             raise HousingException(e,sys) from e
 
