@@ -1,14 +1,15 @@
 
+
 from housing.logger import logging
 from housing.exception import HousingException
 from housing.entity.config_entity import DataValidationConfig
 from housing.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact
 import os,sys
+import pandas  as pd
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
 from evidently.dashboard import Dashboard
 from evidently.dashboard.tabs import DataDriftTab
-import pandas as pd
 import json
 
 class DataValidation:
@@ -23,6 +24,7 @@ class DataValidation:
         except Exception as e:
             raise HousingException(e,sys) from e
 
+
     def get_train_and_test_df(self):
         try:
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
@@ -30,6 +32,7 @@ class DataValidation:
             return train_df,test_df
         except Exception as e:
             raise HousingException(e,sys) from e
+
 
     def is_train_test_file_exists(self)->bool:
         try:
@@ -145,5 +148,9 @@ class DataValidation:
         except Exception as e:
             raise HousingException(e,sys) from e
 
+
     def __del__(self):
         logging.info(f"{'>>'*30}Data Valdaition log completed.{'<<'*30} \n\n")
+        
+
+
