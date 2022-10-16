@@ -109,8 +109,6 @@ This Project is divided into 6 parts or categories.
 
 ![img](https://raw.githubusercontent.com/rajashekarnagalikar/machine_learning_project/main/Study/project.png)
 
-Deployed Platform:-
-![url](https://ml-regression-project.herokuapp.com/predict)
 
 ## Key Points :
 
